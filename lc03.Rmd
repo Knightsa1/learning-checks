@@ -1,0 +1,195 @@
+---
+title: "Learning Check 2"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE, fig.width = 6, fig.asp = 0.618)
+```
+
+### I can import data from a variety of file types
+
+In the `data` folder...
+
+1. timeanddate.com, "diligently research[es] ... holiday dates and information."
+I pulled a list of their holidays and observances for the the ten most populated countries in 2020.
+In this file, each country is contained within a separate tab. Read in the data that corresponds to holidays and observances *only* for the United States (the "us" tab) as a tibble and store in an R object with a meaningful name.
+You must use functions from `{readxl}` to complete this.
+
+```{r chunk_name}
+
+```
+
+
+2. Data Scientist Alex Cookson compiled data on TV tropes.
+A trope is a storytelling device which is a shortcut for describing situations.
+For example, an air vent passageway trope is when people are trapped in a room and escape through air vents (["Yippee ki-yay... Mr. Falcon"](https://youtu.be/Mn-P3lnr76s)).
+There are two files related to these TV tropes: `shows.txt` and `tropes.txt`.
+Read in these two data files as tibbles and store them in separate R objects, each with a meaningful name.
+
+```{r chunk_name}
+
+```
+
+### I can isolate information from a larger dataset
+
+For the `shows.txt` dataset...
+
+1. Find the 10 most used tropes in the shows.
+Your final results should display trope and number of times used.
+Display the top 10 results in ascending order (smallest counts first).
+
+```{r chunk_name}
+
+```
+
+### I can combine information from multiple sources
+
+1. Create one dataset that appropriately combines the information from the `shows.txt` and `tropes.txt` data files.
+You should assign this to an R object to help you with (2).
+
+```{r chunk_name}
+
+```
+
+2. Using your dataset from (1), create a summary table of the descriptions of the 5 most frequently used tropes.
+Your final table should include:
+
+- The top 5 tropes,
+- How frequently each of the tropes occurs, and
+- A description of each trope.
+
+```{r chunk_name}
+
+```
+
+### I can identify if information is presented in a tidy format and restructure information to be in a tidy format
+
+Using the US holidays and observances dataset, 
+
+1. Which individual state(s) has/have the most observed holidays?
+Hint, individual state notes are available in the `Details` column.
+
+```{r chunk_name}
+
+```
+
+
+### I can put character data into a specified order
+
+Using the `gapminder` dataset...
+
+1. Create a comparative boxplot with `lifeExp` on the *x* axis and `contient` on the *y* axis.
+However, make sure that the continents are ordered by descending order rather than the default alphabetical ordering.
+You must use function(s) from `{forcats}` in your solution.
+
+```{r chunk_name}
+
+```
+
+
+### I can use regular expression and other string patterns to manipulate text data
+
+Below I load the `stop_words` tibble for you. Note that this is originally from `{tidytext}` by Julia Silge and David Robinson.
+
+```{r}
+stop_words <- read_csv("data/dw_data/stop_words.csv")
+```
+
+Using the `tropes.txt` data, 
+
+1. Determine which words are the most frequently occurring in the trope descriptions that are not in `stop_words`.
+
+```{r chunk_name}
+
+```
+
+
+2. Determine which words are the most unique in the trope descriptions that are not in `stop_words`.
+
+```{r chunk_name}
+
+```
+
+
+### I can use date/time data to extract portions or perform temporal calculations
+
+Using the US holidays and observances dataset, 
+
+1. Create a bar plot to help you determine which month has the most holidays.
+Be sure to use effective axis values.
+
+```{r chunk_name}
+
+```
+
+
+2. Create a bar plot to help you determine which day of the week has the most holidays.
+Be sure to use effective axis values.
+
+```{r chunk_name}
+
+```
+
+
+### I can create tables of numerical summaries that draw attention to important comparisons
+
+Using the US holidays and observances dataset, 
+
+1. Create a summary table of the frequencies of type of holiday and state observances (not federal holidays).
+Be sure that this table is human-readable by making it easy to compare the type of holiday between states.
+
+```{r chunk_name}
+
+```
+
+
+### I can create graphical display of data that highlight key features
+
+Using the US holidays and observances dataset, 
+
+1. Create a bar graph comparing the number of state holidays for only Michigan, Maine, and Illinois.
+You must use user-defined colors, informative labels and values, and a title.
+
+```{r chunk_name}
+
+```
+
+
+### I can identify and correct common errors and in R programs
+
+1. In the below code chunk, I attempt to calculate the number of mammals for each type of non-missing `vore` (and all mammals that have some type of `conversation`) along with the mean and standard deviation for total sleep.
+However, there are a number of errors.
+
+```{r}
+msleep %>% 
+  select(vore, sleep_total) %>% 
+  filter(!is.na(conservation), is.na(vore)) %>% 
+  group_by(vore) %>% 
+  summarise(n = n(),
+            mean_sleep = mean(sleep),
+            sd_sleep = sd(sleep))
+
+```
+
+Fix these errors so it obtains the desired results.
+
+```{r chunk_name}
+
+```
+
+
+### I can explore new functions or packages and implement them into analysis
+
+1. Look into the documentations for the [`{skimr}`](https://github.com/ropensci/skimr) package.
+Before installing this, remember the recommended workflow [from HPC](https://hpcsupport.atlassian.net/servicedesk/customer/portal/3/article/562429973).
+For the `gapminder` dataset, create summaries for each continent.
+
+```{r chunk_name}
+
+```
+
+
+## Attribution
+
+Ideas for the Application were derived from [Greg Wilson](https://third-bit.com/about/)'s RStudio Instructor training.

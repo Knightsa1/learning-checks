@@ -1,0 +1,268 @@
+---
+title: "Learning Check 5"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE, fig.width = 6, fig.asp = 0.618)
+```
+
+### I can import data from a variety of file types
+
+In the `data` folder...
+
+1. There are data from the American Veterinary Association (obtained via tidytuesday through data.world) saved as `cat_v_dog.sas7bdat`. Read in these data in the code chunk below.
+
+
+
+2. In 2015, FiveThirtyEight used SurveyMonkey to poll 1,058 Americans a number of questions about their Thanksgiving meals saved as `thanksgiving_meals.csv`. Missing values were stored as `-`. Read in these data in the code chunk below, making sure to treat alternative missing values as missing values in R. Note that I do not want you to remove the missing values, but direct R to treat these as missing values.
+
+
+
+### I can create or get data from the web
+
+Scrape the table of [gender wage gap by country](https://en.wikipedia.org/wiki/List_of_countries_by_male_to_female_income_ratio).
+Save your code in an R script called `paygap.R`, write the data frame out to a csv file called `paygap.csv` using the `write_csv` function.
+
+Store this file in a subfolder of the `data` folder - this subfolder should be called `web-scrape`.
+For example, if your data frame is called `paygap`, you can use `write_csv(paygap, path = "data/web-scrape/paygap.csv")`.
+
+
+
+### I can isolate information from a larger dataset
+
+1. Using the cat/dog data, create a tibble that only contains the "number of" (i.e., n) columns for states whose first letter is before "M". You should have four columns and should not have typed these four column names out. You do not need to assign this to anything.
+
+
+
+2. Using the cat/dog data, create a tibble to show which state(s) has the most number of cats and the most number of dogs. You do not need to assign this to anything.
+
+
+
+### I can combine information from multiple sources
+
+1. Using the cat/dog data, create a tibble to display which state(s) are not contained within this file. You can use the base R `state.*` objects to assist you. You do not need to assign this to anything.
+
+
+
+### I can identify if information is presented in a tidy format and restructure information to be in a tidy format
+
+1. Using the cat/dog data, create a tibble that contains the columns listed below. There should be 147 rows. You should assign this to an R object to help you with (2).
+
+- `state`
+- `type`: which takes on the values "pet", "dog", or "cat"
+- `percent`
+
+
+
+2. Using your tibble in (1), create a clustered bar chart with `type` on the *x* axis, `percent` on the *y* axis, and the bars colored by state (but only include the states Michigan and Maine).
+
+
+
+### I can put character data into a specified order
+
+The `{tidyr}` package has a dataset called `population` that contains a subset of information from the World Health Organization.
+
+1. Create a timeseries plot with `year` on the *x* axis, `population` on the *y* axis, with a line colored for only the countries of Anguilla, Montserrat, Nauru, and Tuvalu. However, make sure that the labels in the legend are ordered by each lines final value rather than the default alphabetical ordering.
+
+
+
+### I can use regular expression and other string patterns to manipulate text data
+
+1. Using Thanksgiving data, create a new variable that calculates the midpoint (i.e., `(lower + upper)/2`) of `family_income` ranges. For this task, treat `"and up"` as $1,000,000 and `"Prefer not to answer"` as `NA`. You should assign this to an R object to help you with (2).
+
+
+
+2. Plot the distribution of these calculated midpoints from (1) by whether the respondent works in retail (`work_retail`).
+
+
+### I can create tables of numerical summaries that draw attention to important comparisons
+
+1. Using the Thanksgiving data, create a summary table that shows the frequency of each side (these are contained in columns `side1` through `side15`) by each `us_region`. You must use efficient coding tricks to earn a satisfactory on this target (i.e., do not type out each individual side column). You are free to collapse categories as needed to produce a more effective table.
+
+
+
+2. Using the Thanksgiving data, create a summary table that shows the frequency of each pie (these are contained in columns `pie1` through `pie13`) by each `community_type`. You must use efficient coding tricks to earn a satisfactory on this target (i.e., do not type out each individual pie column). You are free to collapse categories as needed to produce a more effective table.
+
+
+
+### I can create graphical display of data that highlight key features
+
+1. Using the Thanksgiving data, create a plot that shows the frequency of each side (these are contained in columns `side1` through `side15`) by each `us_region`. In your visualization, be sure to use effective labels, titles, subtitles, etc. and make sure that your (user-defined) color schemes clearly indicate different categories. You are free to collapse categories as needed to produce a more effective visualization.
+
+
+
+2. Using the Thanksgiving data, create a plot that shows the frequency of each pie (these are contained in columns `pie1` through `pie13`) by each `community_type`. In your visualization, be sure to use effective labels, titles, subtitles, etc. and make sure that your (user-defined) color schemes clearly indicate different categories. You are free to collapse categories as needed to produce a more effective visualization.
+
+
+
+### I can combine multiple graphical displays or numerical summaries into an effective data product
+
+1. Combine your Thanksgiving graph 1 and table 1. Be sure that both objects are completely visible.
+
+
+
+2. Combine your Thanksgiving graph 2 and table 2. Be sure that both objects are completely visible.
+
+
+
+### I can write a function that accomplishes a common analysis task
+
+1. Write a function called `rows_from_file` that returns the first *n* rows from a table in a CSV file when provided with the files name/location and the number of rows desired. If no value is specified for the number of rows, it should default to displaying 3 rows.
+
+
+
+Write your code above this statement and do not edit the code chunk below as it is to test your function.
+
+```{r function_check}
+rows_from_file("data/fp_data/person.csv") # should show 3 rows
+```
+
+
+Below I create a tibble called `person`.
+
+```{r person_tibble, message = FALSE}
+person <- read_csv("data/fp_data/person.csv")
+```
+
+2. Write a function called `long_name` that checks whether a string is longer than 4 characters.
+
+
+
+### I can use functional programming to apply a function to each element in data source
+
+1. Using the `long_name` function that you created in FP.1 Part 2 along with the appropriate function(s) from `{purrr}` to create a *logical* vector that contains the value `TRUE` where family names in the tibble `person` are longer than 4 characters, and `FALSE` where they are 4 characters or less.
+
+
+
+### I can implement resampling methods to make conclusions about data
+
+My grandfather thinks that his "1804 Silver Dollar" (image below) is a fair coin and uses it all of the time to make decisions. Think Two-Face from Batman, except for less nefarious purposes. 
+
+![1804 Silver Dollar](http://static4.businessinsider.com/image/54fcc4246bb3f7fe2ce21314-1200-1200/2015-03-08t142729z_1_lynxmpeb2708g_rtroptp_4_auction-coins.jpg) 
+
+I flipped his coin 58 times and these data are loaded below.
+
+```{r silver_dollar, message = FALSE}
+silver_dollar <- read_csv("data/fp_data/silver_dollar.csv")
+```
+
+1. Using `replicate`, `sample`, and the appropriate `map` functions, perform 1,000 bootstrap samples and calculate the proportion of successes for each sample (your choice as to what constitutes a "success" for this problem). Computer 95% bootstrap confidence interval and discuss whether there is evidence that my grandfather's 1804 Silver Dollar is a fair coin. **Remember to set a seed**.
+
+
+
+### I can use common probability distributions to simulate data and explore statistical ideas
+
+The `t_stat` function provided below takes a vector of numeric values and produces the *t* test statistic for data sampled from a beta distribution with shape parameters $\alpha = 0.5$ (`shape1`) and $\beta = 0.5$ (`shape2`). With these two shape parameters, the population has a mean of 0.5 and standard deviation of 0.354.
+
+```{r beta_distribution}
+ggplot(data = tibble(x = 0:1), aes(x)) +
+  stat_function(fun = dbeta, n = 101, args = list(shape1 = 0.5, shape2 = 0.5)) +
+  labs(title = "Beta(0.5, 0.5) Distribution") +
+  theme_bw() + 
+  theme(axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+```
+
+
+
+```{r t_test_statistic}
+t_stat <- function(vector){
+  t_stat = (mean(vector) - 0.5) / (sd(vector) / sqrt(length(vector)))
+}
+```
+
+Recall that the *t* test statistic is:
+
+$$
+t = \frac{\overline{x} - \mu}{s / \sqrt{n}}
+$$
+
+
+1. Generate 1,000 samples of size 30 from a Beta(0.5, 0.5) distribution. Calculate the *t* test statistic for each of the 1,000 samples. You should assign this to an R object to help you with (2).
+
+
+
+2. Construct a histogram of the 1,000 *t* test statistics.
+
+
+
+3. What are the mean and standard deviation of the distribution of 1,000 *t* test statistics? How do these compare to the population's mean and standard deviation previous provided?
+
+
+
+### I can implement regression and tests of significance to analyze research questions
+
+1. For the cat/dog data, fit a linear model for the relationship between the response variable *average number of dogs per household* and explanatory variable *average number of cats per household*. Use `{broom}` to display the model fits as a publication-ready table and interpret the y-intercept and slope in context of this scenario.
+
+
+
+### I can use a project-based workflow to organize and run reproducible analyses
+
+In your Learning Target Check 5 repository, create a new branch called "PD1". In this branch, do the following, using appropriately formatted markdown syntax:
+
+1. At the top of the README file, state one thing that you are looking forward to doing over summer.
+2. Create a pull request and merger your branch back to the main branch.
+
+
+
+### I can identify and correct common errors and in R programs
+
+Below is a `for` loop that creates a plot with fuel efficiency on the *x*-axis and horsepower on th *y*-axis for three cylinder levels (4, 6, 8). **Do not edit this code**.
+
+```{r}
+cylinders <- mtcars$cyl %>% 
+  unique() %>% 
+  sort()
+
+plots <- vector("list", length(cylinders))
+
+for (d in 1:length(cylinders)){
+  plots[[d]] <- mtcars %>% 
+    filter(cyl == cylinders[d]) %>%
+    ggplot() + 
+    theme_bw() +
+    geom_point(aes(x = mpg, y = hp) ) + 
+    labs(x = 'Fuel efficiency (mpg)',
+         y = 'Horsepower (hp)') + 
+    ggtitle(glue::glue("Horsepower and Fuel efficiency for {cylinders[d]} cylinders"))
+}
+plots
+```
+
+1. Below is an attempt to use `{purrr}` functions to vectorize this previous task except there are errors - drat! Correct these so that the output is the same.
+
+```{r}
+function(var) {
+  mtcars %>% 
+    filter(cyl == var) %>%
+    ggplot() + 
+    theme_bw() +
+    geom_point(aes(x = mpg, y = hp) ) + 
+    labs(x = 'Fuel efficiency (mpg)',
+         y = 'Horsepower (hp)') + 
+    ggtitle(glue::glue("Horsepower and Fuel efficiency for {cylinders[d]} cylinders"))
+}
+
+map_plots <- map(cylinders, plot_fn)
+map_plots
+```
+
+### I can explore new functions or packages and implement them into analysis
+
+Look into the documentations for [`{emo}`](https://github.com/hadley/emo). Before installing this, remember the recommended workflow [from HPC](https://hpcsupport.atlassian.net/servicedesk/customer/portal/3/article/562429973).
+
+1. Use the [emoji](https://emoji.muan.co/) site to find 2 specific emojis
+
+
+
+2. Use Hadley's keywords to randomly select 2 emojis.
+
+
+
+
+## Attribution
+
+Ideas for the Application were derived from [Greg Wilson](https://third-bit.com/about/)'s RStudio Instructor training.

@@ -1,0 +1,94 @@
+---
+title: "Learning Check 1"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE, fig.width = 6, fig.asp = 0.618)
+library(tidyverse)
+```
+
+### I can isolate information from a larger dataset
+
+Read the file `person.csv` from the `data/` folder and store the result in an object called `person`.
+
+```{r load_person_data}
+
+```
+
+Create a tibble that satisfies the following conditions. You do not need to assign this tibble to anything.
+
+1. The tibble contains only family and personal names, in that order.
+2. The tibble contains only the rows in which family names come *before* the letter `M`.
+
+Your solution should work for tables with more rows than the example data (i.e., you cannot rely on row numbers or select specific names).
+
+```{r two_columns_and_before_m}
+
+```
+
+Create a tibble with a new column `family_name_length` that contains the lengths of each family names. You do not need to assign this tibble to anything.
+
+```{r name_length}
+
+```
+
+Display all the rows `person` (including `family_name_length`), sorted by family name length with the longest name first. You do not need to assign this tibble to anything.
+
+```{r sorted_name_length}
+
+```
+
+
+### I can create graphical display of data that highlight key features
+
+In the code chunk below, I load `{gapminder}` and store the `gapminder` dataset to your environment with the `data` function.
+Note, you may need to install `{gapminder}` in the **Console** if you experience issues.
+Follow these best practices prior to doing that: [Use Caution When Installing Packages in RStudio Server](https://hpcsupport.atlassian.net/servicedesk/customer/portal/3/article/562429973)
+
+```{r load_gapminder}
+library(gapminder)
+data(gapminder)
+```
+
+Create a comparative boxplot that displays `pop` for each country that begins with `"U"`.
+Be sure to include a title, informative labels, etc. 
+
+```{r u_boxplots}
+
+```
+
+### I can identify and correct common errors and in R programs
+
+In the below code chunk, I attempt to calculate the number of countries along with the mean and standard deviation of life expectancy for each continent since after year 1990.
+However, there are a number of errors in this code.
+
+```{r error_code}
+gapminder +
+  select(continent, lifeExp) +
+  filter(year > 1990) +
+  group_by(continent) + 
+  summarise(n = n()
+            mean_lifeExp = mean(lifeExp)
+            sd_lifeExp = sd(lifeExp))
+```
+
+Fix these error in the code chunk provide below so that you obtain the following information.
+You do not need to use `{knitr::kable}` to produce a markdown table - only fix the errors presented in the code.
+
+|continent |   n| mean_lifeExp   | sd_lifeExp|
+|:---------|---:|---------------:|----------:|
+|Africa    | 208|        53.83978|   9.396397|
+|Americas  | 100|        71.68725|   4.990401|
+|Asia      | 132|        68.63002|   8.181951|
+|Europe    | 120|        76.07362|   3.253181|
+|Oceania   |   8|        78.89862|   1.672702|
+
+```{r fix_errors_here}
+
+```
+
+
+## Attribution
+
+Ideas for the Application were derived from [Greg Wilson](https://third-bit.com/about/)'s RStudio Instructor training.

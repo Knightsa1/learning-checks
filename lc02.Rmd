@@ -1,0 +1,173 @@
+---
+title: "Learning Check 2"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE, fig.width = 6, fig.asp = 0.618)
+library(tidyverse)
+```
+
+### I can isolate information from a larger dataset
+
+In the code chunk below, I load `{gapminder}` and store the `gapminder` dataset to your environment with the `data` function.
+Note, you may need to install `{gapminder}` in the **Console** if you experience issues.
+Follow these best practices prior to doing that: [Use Caution When Installing Packages in RStudio Server](https://hpcsupport.atlassian.net/servicedesk/customer/portal/3/article/562429973)
+
+```{r load_gapminder}
+library(gapminder)
+data(gapminder)
+```
+
+For each year, find the two countries on the continent of Asia that had the largest and smallest `lifeExp`.
+Your final tibble should display the following columns in this order:
+
+- `year` (sorted oldest entries first)
+- `country`
+- `lifeExp`
+
+End your pipeline with `print(n = 24)` to display all 24 rows (12 years x 2 countries per year).
+
+```{r large_small_lifeExp}
+
+```
+
+
+### I can combine information from multiple sources
+
+In the code chunk below, I store the `gapminder_unfiltered` dataset to your environment with the `data` function.
+
+```{r load_gapminder_unfiltered}
+data(gapminder_unfiltered)
+```
+
+Using the `gapminder` (from DW.3) and `gapminder_unfiltered` datasets, create one tibble that has 6 rows and only the following columns:
+
+- `continent`: The 6 "continents"
+- `count_gapminder`: number of entries in each continent for `gapminder`
+- `count_unfiltered`: number of entries in each continent for `gapminder_unfiltered`
+- `difference`: difference between the two count columns
+
+```{r country_difference}
+
+```
+
+
+### I can identify if information is presented in a tidy format and restructure information to be in a tidy format
+
+You have been given a CSV file `infant_hiv.csv` that is formatted as follows:
+
+|ISO3 |2009 est  |2009 hi  |2009 lo  |2010 est  |2010 hi  |2010 lo  |
+|:----|:---------|:--------|:--------|:---------|:--------|:--------|
+|ALB  |-         |-        |-        |-         |-        |-        |
+|BLR  |>95%      |>95%     |>95%     |>95%      |>95%     |>95%     |
+|BLZ  |77%       |89%      |3%       |75%       |88%      |3%       |
+|BRA  |25%       |35%      |19%      |25%       |35%      |19%      |
+
+- The first column is ISO3 country codes.
+- There are three columns for each year from 2009 to 2017. Each set has estimated, low, and high values for the year (in that order).
+- A dash `-` indicates that no data is available.
+- Our analyst tells us that `>95% `means “the data is unreliable” and thus should be treated as missing.
+
+Below I read in the file `infant_hiv.csv` and store the result in a tibble called `infant_hiv`. Note that I am treating `"-"` and `">95%"` as missing values.
+
+```{r load_person_data}
+infant_hiv <- read_csv("data/infant_hiv.csv", na = c("-", ">95%"))
+```
+
+Your task is to turn this into a tidy data table for further analysis:
+
+First, describe what a tidy layout for this data would look like and why.
+
+
+
+Now, turn this data into a tidy version of the table.
+
+```{r infant_hiv_tidy}
+
+```
+
+
+### I can create tables of numerical summaries that draw attention to important comparisons
+
+Below I read in data for all 307 victims of the Halloween and Friday the 13th movie series (as of 2016) collected by Dr. Mary Richardson (of GVSU!).
+
+```{r load_horror}
+horror <- haven::read_sav("https://introstat.weebly.com/uploads/3/1/1/8/31183735/horror_movies.sav") %>% 
+  haven::as_factor() %>% 
+  mutate(Gender = case_when(
+    Gender == "F" ~ "Female",
+    TRUE ~ "Male"
+  ))
+```
+
+There are three variables in this dataset:
+
+- `Gender`: Gender of the character killed
+- `Category`: The way in which each character is killed
+- `Franchise`: The movie franchise the character is from
+
+
+Create one summary table that displays the co-occurrences (i.e., frequencies) for the three variables in this dataset.
+You are primarily interested in comparing the numbers of deaths for a particular way in which characters are killed across the different genders.
+Hint: you will need to restructure your table to make comparisons more "human-readable".
+
+```{r co_occurrences}
+
+```
+
+### I can create graphical display of data that highlight key features
+
+Using the `horror` dataset from DS.1, create a bar graph that displays the co-occurrences for the ways in which each character is killed across the different genders in this dataset.
+You must use informative labels and values, a title, etc.
+Again, you are primarily interested in comparing the numbers of deaths for a particular way in which characters are killed across the different genders.
+
+```{r chunk_name}
+```
+
+
+### I can identify and correct common errors and in R programs
+
+The `gapminder` dataset has multiple measurements for each country
+
+The code below is suppose to create a plot of these data, where:
+
+- Each dot represents one year for each country *i*.
+- The color of each dot represents the continent for that country.
+- The *X* coordinate for the year/country *i* is life expectancy.
+- The *Y* coordinate for the year/country *i* is gdp per capita.
+- The one line is created using the `'lm'` *method* for all continents (not the individual continents) without the *standard error* band.
+- The points opacity is set to a transparency level of 0.2.
+
+Correct this code in the empty code chunk below to produce the desired results, fixing any mistakes you notice in the plot along the way.
+
+```{r plot_error}
+gapminder %>% 
+  ggplot(aes(x = lifeExp, y = gdpPercap, color = country)) +
+  geom_point(aes(alpha = 0.2)) +
+  geom_smooth()
+```
+
+```{r fix_error}
+
+```
+
+
+### I can explore new functions or packages and implement them into analysis
+
+Look into the documentation for the [`{praise}`](https://github.com/rladies/praise) package.
+Before installing this, remember the recommended workflow [from HPC](https://hpcsupport.atlassian.net/servicedesk/customer/portal/3/article/562429973).
+Provide yourself with three affirmations.
+
+```{r affirmative_this}
+
+```
+
+
+![Stuart Smalley from SNL](https://media.giphy.com/media/3o7TKnKXMdf5qNtVLi/giphy.gif)
+
+
+
+## Attribution
+
+Ideas for the Application were derived from [Greg Wilson](https://third-bit.com/about/)'s RStudio Instructor training.

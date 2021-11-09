@@ -1,0 +1,236 @@
+---
+title: "Learning Check 7"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE, fig.width = 6, fig.asp = 0.618)
+```
+
+### I can import data from a variety of file types
+
+Data Scientist [Malcolm Barrett](https://twitter.com/malco_barrett) put together 7 datasets from Chris Claremont's 16 year run of The Uncanny X-men comic series in the GitHub package [`{claremontrun}`](https://github.com/malcolmbarrett/claremontrun).
+From this package, load the following datasets to your environment:
+
+- `xmen_bechdel`
+- `characters`
+- `covers`
+
+
+
+### I can create or get data from the web
+
+Wikipedia has a table of [African-American inventors and scientists](https://en.wikipedia.org/wiki/List_of_African-American_inventors_and_scientists).
+Scrape this table, excluding the References column.
+Assign this to an R object as you will need this to complete DW.5 and DW.8.
+
+
+### I can isolate information from a larger dataset
+
+For the `characters` Chris Claremont run data...
+
+1. Which characters quit the team?
+
+
+
+2. Which character(s) is/are the most murderous to humans, non-humans, overall?
+
+
+
+### I can combine information from multiple sources
+
+For the Chris Claremont datasets, combine the `xmen_bechdel` dataset and `covers` dataset.
+Assign this to an R object as you will need this to complete DW.7.
+
+
+
+### I can identify if information is presented in a tidy format and restructure information to be in a tidy format
+
+Using the data of African-American inventors and scientists, create a frequency table of the top 3 occupations provided.
+If one of these inventors/scientists has multiple occupations, each item should be treated as a unique entry.
+For example, George Edward Alcorn, Jr. was a Physicist and an inventor - he should be counted as both a Physicist and as an Inventor.
+
+
+### I can put character data into a specified order
+
+For the Chris Claremont `characters` dataset, create a plot that depicts the issues have both humans and non-humans being killed and how many total deaths are there?
+Be sure to organize your plot by either increasing or decreasing total amounts per issue.
+
+
+
+### I can use regular expression and other string patterns to manipulate text data
+
+Using your combined data from DW.4, create one data visualization that shows the top three characters on issues that pass the Bechdel test vs the top three characters on issues that do not pass the Bechdel test.
+
+
+### I can use date/time data to extract portions or perform temporal calculations
+
+Using the data of African-American inventors and scientists, which person has the longest difference in the years column?
+Use only rows that contain a full start and end year.
+
+
+
+### I can create tables of numerical summaries that draw attention to important comparisons
+
+Using any of the datasets (i.e., the three Chris Claremont datasets or the African-American inventors/scientists dataset), create a summary table of two variables (your choice).
+However, you must use either a `pivot_longer` or `pivot_wider` in your work.
+
+
+
+### I can create graphical display of data that highlight key features
+
+Produce a graphical display that complements the visualization that you created for DS.1.
+You must provide an informatative title, columns, user-defined colors, etc.
+
+
+
+### I can combine multiple graphical displays or numerical summaries into an effective data product
+
+Combined your table and graph from above into one figure.
+Both objects must be fully viewable (i.e., not overlapping) and all features of the two objects must be readable (e.g., no overlapping x-axes labels).
+
+
+
+### I can write a function that accomplishes a common analysis task
+
+We have consistently obtained the frequencies and relative frequencies (i.e., proportions) for categorical variables.
+We know that this involves a two step process: summarise then mutate.
+Write a function called `relative_frequencies` that combines these steps into one. That is, your function should take a dataset as an argument and return the frequencies (named `freq`) and relative frequencies (named `rel_freq`) for each category.
+
+
+
+Do not edit the below code chunk.
+
+```{r}
+claremontrun::character_visualization %>% 
+  group_by(costume) %>% 
+  relative_frequencies()
+```
+
+This should return the following information (you do not need to have it print as a `kable`).
+
+|costume     | freq| rel_freq|
+|:-----------|----:|--------:|
+|Costume     | 4900|      0.5|
+|Non-Costume | 4900|      0.5|
+
+
+
+### I can use functional programming to apply a function to each element in data source
+
+The `holidates.xlsx` data file (in the `data` folder) has 10 different tabs - one for each of the 10 most populated countries.
+Use a function from `{readxl}` to create a object that contains the sheet names. Then, use the appropriate `{purrr}` function and `{readxl}` function to read in each tab of the `holidates.xlsx` file. Your resulting object should be called `holidates_tabs` and be a List of 10. 
+
+
+
+Do not edit to code chunk below.
+
+```{r}
+length(holidates_tabs) # Should return 10
+```
+
+
+
+### I can implement resampling methods to make conclusions about data
+
+The `msleep` dataset has information on the amount of time mammals sleep. This dataset is loaded as part of the `{ggplot2}` package. Below I add this to your environment and create a scatterplot of the relationship between the response variable `sleep_rem` and explanatory variable `awake`, fit the linear model and pull of the estimate for the slope between these variables. In this Target, you will perform a bootstrap method to estimate the population slope for the linear relationship between `sleep_rem` and `awake`.
+
+```{r msleep}
+msleep_var_subset <- msleep %>% 
+  select(sleep_rem, awake)
+
+ggplot(data = msleep, aes(x = awake, y = sleep_rem)) + 
+  geom_point()
+
+lm(data = msleep_var_subset) %>% 
+  broom::tidy() %>% 
+  filter(term == "awake") %>% 
+  select(estimate)
+```
+
+1. Using `replicate()`, `sample()`, and `map_dbl()`, perform 1,000 bootstrap samples for the slope between the response variable`sleep_rem` and explanatory variable `awake` for each bootstrap sample. Remember to set a seed and store this in a object with a meaningful name.
+
+
+
+2. Obtain and interpret the 95% bootstrap interval limits for the slope between the response variable`sleep_rem` and explanatory variable `awake`.
+
+
+
+### I can use common probability distributions to simulate data and explore statistical ideas
+
+The concept of "power analysis" can help with determining how large of a sample we need to take in order for certain specifications to hold. In statistics, *power* is the likelihood that we correctly reject the null hypothesis in a statistical hypothesis test. You may remember that there are two types of error (a false-positive and false-negative). Power is then 1 minus the probability of committing a false-negative.
+
+To do a simplified power analysis, we will :
+
+- Focus on the null hypothesis that the mean for a normal distribution is 4 vs. the alternative hypothesis that the mean of the distribution is greater than 4;
+- Sample from a distribution where the mean actually falls in the alternative hypothesis space. We will use a mean of 5 (this is greater than 4 so we SHOULD reject). We will also take samples of size 10 (n = 10).
+- Then determine how often we reject given that we should have rejected using α = 0.05. That is count how many times our p-value is smaller than 0.05.
+
+I will provide you with instructions for what you need to do, but I will provide some hints as to what functions you need to use. You have used all the necessary functions, though.
+
+1. In the code chunk below take 1,000 samples of n = 10 from a normal distribution (remember there are a bunch of `r<distribution>()` functions that we can generate samples from different <distributions>) with mean = 5 and standard deviation = 1. Make sure that you specify not to `simplify` they results. Assign this to an R object called `simulations` and do not forget to set a seed.
+
+
+
+2. Below I create a function (`t_test_p_value`) that obtains the p-value for a t-test with a null value of 4. Apply this function to your 1,000 samples from (1) using the appropriate `map_*()` function so that you now have 1,000 p-values.
+
+```{r}
+t_test_p_value <- function(x){
+  t.test(x, mu = 4) %>% 
+    broom::tidy() %>% 
+    select(p.value)
+}
+```
+
+
+
+3. What proportion of `p.values` are less than or equal to 0.05? This the power for this test!
+
+
+
+### I can implement regression and tests of significance to analyze research questions
+
+Using the full `msleep` dataset, fit a linear model for the relationship between the response variable `awake` and explanatory variables ``bodywt` and `vore`.
+Use functions from `{broom}` to display the parameter estimates table as a publication-ready table and interpret slope for each explanatory variable in context of this scenario.
+
+
+
+### I can use a project-based workflow to organize and run reproducible analyses
+
+1. Create a new R script
+2. Save this R script to a folder named `functions` and name this script `helper.R`.
+3. In your `helper.R` script, write a function called `statement` takes no arguments and prints a statement. For this "statement", make it a statement, animated GIF (appropriately formatted), image (appropriately formatted), or song that is helping you get through this week.
+
+
+
+Do not edit the code chunk below. This is how I will check that you have completed this Learning Target.
+
+```{r helper_check}
+source("functions/helper.R")
+
+statement()
+```
+
+
+
+### I can identify and correct common errors and in R programs
+
+Below is a `for` loop that divides the values in each column of the `mtcars` dataset (loaded with base R) by the maximum in that column.
+
+```{r}
+for (c in seq_along(mtcars)){
+  mtcars[[c]] <- mtcars[[c]] / max(mtcars[[c]], na.rm = TRUE)
+}
+head(mtcars)
+```
+
+Use the appropriate **purrr** function to vectorize this task.
+
+
+
+### I can explore new functions or packages and implement them into analysis
+
+Use [`{rtweet}`](https://docs.ropensci.org/rtweet/) to generate a dataset from twitter about some topic that is of interest to you (i.e., something beyond what is show in the help documentation).
+Then produce some summary (table or plot) of your dataset.
+
+
